@@ -1,2 +1,4 @@
-# timelib-py
-Library for time and datetime format with python
+
+pytimelib
+=========
+* pytimelib is a simple model for python to do time conversion.
