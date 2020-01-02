@@ -152,10 +152,3 @@ class TimeLib(object):
         to_tz = tz(to_tz)
         return datetime.datetime.fromtimestamp(time_stamp, to_tz)
 
-    # 字符串(带TZ格式)转timestamp（保留毫秒）
-    # @staticmethod
-    # def datetime_str_to_timestamp(utc_str):
-    #     # utc_str = datetime.datetime.strptime(utc_str, "%Y-%m-%dT%H:%M:%S.%fZ")
-    #     return int(time.mktime(time.strptime(utc_str, "%Y-%m-%dT%H:%M:%S.%fZ")))
-    #
-    #     return int(time.mktime(utc_str.timetuple())) * 1000 + (utc_str.microsecond / 1000)
