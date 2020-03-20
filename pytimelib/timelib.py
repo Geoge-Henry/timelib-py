@@ -6,7 +6,7 @@
 import datetime
 import time
 from pytz import timezone as tz
-import calendar
+import arrow
 from dateutil.parser import parse
 
 
@@ -26,16 +26,14 @@ class TimeLib(object):
                                           _format="%Y-%m-%d %H:%M:%S",
                                           from_tz="UTC"):
         """
-        # todo not support dst
         String to timestamp according to timezone
         @:param time_string string
         @:param _format string, default:%Y-%m-%d %H:%M:%S
         @:param from_tz string, default:UTC+0
         """
-        from_tz = tz(from_tz)
-        return int(time.mktime(
-            datetime.datetime.strptime(time_string, _format).replace(
-                tzinfo=from_tz).astimezone().timetuple()))
+        arrow_time = arrow.get(datetime.datetime.strptime(
+            time_string, _format), from_tz).to("UTC")
+        return int(arrow_time.timestamp)
 
     @staticmethod
     def timestamp_to_str(timestamp, _format="%Y-%m-%d %H:%M:%S"):
@@ -51,7 +49,7 @@ class TimeLib(object):
     def timestamp_to_str_by_timezone(timestamp, _format="%Y-%m-%d %H:%M:%S",
                                      to_tz="Asia/Shanghai"):
         """
-        Timestamp to string according to timezone
+        Timestamp to string according to timezone(support dst)
         @:param timestamp int
         @:param _format string, default:%Y-%m-%d %H:%M:%S
         @:param to_tz string, default:Asia/Shanghai
