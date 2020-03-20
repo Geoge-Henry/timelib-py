@@ -6,6 +6,8 @@
 import datetime
 import time
 from pytz import timezone as tz
+import calendar
+from dateutil.parser import parse
 
 
 class TimeLib(object):
@@ -22,19 +24,18 @@ class TimeLib(object):
     @staticmethod
     def time_str_to_timestamp_by_timezone(time_string,
                                           _format="%Y-%m-%d %H:%M:%S",
-                                          from_tz="UTC", to_tz="Asia/Shanghai"):
+                                          from_tz="UTC"):
         """
+        # todo not support dst
         String to timestamp according to timezone
         @:param time_string string
         @:param _format string, default:%Y-%m-%d %H:%M:%S
         @:param from_tz string, default:UTC+0
-        @:param to_tz string, default:Asia/Shanghai
         """
         from_tz = tz(from_tz)
-        to_tz = tz(to_tz)
         return int(time.mktime(
             datetime.datetime.strptime(time_string, _format).replace(
-                tzinfo=from_tz).astimezone(to_tz).timetuple()))
+                tzinfo=from_tz).astimezone().timetuple()))
 
     @staticmethod
     def timestamp_to_str(timestamp, _format="%Y-%m-%d %H:%M:%S"):
@@ -72,7 +73,7 @@ class TimeLib(object):
     @staticmethod
     def datetime_str_to_datetime_by_timezone(time_string, from_tz="UTC",
                                              to_tz="Asia/Shanghai",
-                                             _format="%Y-%m-%d %H:%M:%S",):
+                                             _format="%Y-%m-%d %H:%M:%S", ):
         """
         String to datetime according to timezone
         @:param time_string string
@@ -83,7 +84,7 @@ class TimeLib(object):
         from_tz = tz(from_tz)
         to_tz = tz(to_tz)
         return datetime.datetime.strptime(time_string, _format).replace(
-                    tzinfo=from_tz).astimezone(to_tz)
+            tzinfo=from_tz).astimezone(to_tz)
 
     @staticmethod
     def datetime_to_datetime_str(date, _format="%Y-%m-%d %H:%M:%S"):
@@ -130,7 +131,7 @@ class TimeLib(object):
         from_tz = tz(from_tz)
         to_tz = tz(to_tz)
         return int(time.mktime(date.replace(
-                tzinfo=from_tz).astimezone(to_tz).timetuple()))
+            tzinfo=from_tz).astimezone(to_tz).timetuple()))
 
     # 时间戳转datetime
     @staticmethod
@@ -151,4 +152,3 @@ class TimeLib(object):
         """
         to_tz = tz(to_tz)
         return datetime.datetime.fromtimestamp(time_stamp, to_tz)
-
