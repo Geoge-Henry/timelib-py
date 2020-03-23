@@ -9,7 +9,4 @@
 
 from .timelib import TimeLib
 
-__version__ = "1.0.1"
-
-
 
