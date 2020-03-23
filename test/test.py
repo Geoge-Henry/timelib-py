@@ -48,3 +48,25 @@ if __name__ == "__main__":
     timestamp = TimeLib.time_str_to_timestamp_by_timezone(
         time_str, from_tz="America/Los_Angeles")
     print(timestamp)
+
+    # datetime and timeString by timezone
+    print("testing datetime to timeString by timezone(UTC to Los Angeles):")
+    date_time = datetime.datetime.utcnow()
+    time_str = TimeLib.datetime_to_datetime_str_by_timezone(date_time, to_tz="America/Los_Angeles")
+    print(time_str)
+    print("testing timeString to datetime by timezone(Los Angeles to UTC):")
+    date_time = TimeLib.datetime_str_to_datetime_by_timezone(
+        time_str, from_tz="America/Los_Angeles", to_tz="UTC")
+    print(date_time)
+
+    # datetime and timestamp by timezone
+    date_time = datetime.datetime.utcnow()
+    print(date_time)
+    print("testing datetime to timestamp by timezone(UTC to Los Angeles):")
+    timestamp = TimeLib.datetime_to_timestamp_by_timezone(date_time,
+                                                          from_tz="UTC")
+    print(timestamp)
+    print("testing timestamp to datetime by timezone(UTC to Los Angeles):")
+    date_time = TimeLib.timestamp_to_datetime_by_timezone(
+        timestamp, to_tz="America/Los_Angeles")
+    print(date_time)

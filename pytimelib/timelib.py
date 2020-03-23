@@ -7,7 +7,6 @@ import datetime
 import time
 from pytz import timezone as tz
 import arrow
-from dateutil.parser import parse
 
 
 class TimeLib(object):
@@ -79,10 +78,9 @@ class TimeLib(object):
         @:param to_tz string, default:Asia/Shanghai
         @:param _format string, default:%Y-%m-%d %H:%M:%S
         """
-        from_tz = tz(from_tz)
-        to_tz = tz(to_tz)
-        return datetime.datetime.strptime(time_string, _format).replace(
-            tzinfo=from_tz).astimezone(to_tz)
+        arrow_time = arrow.get(datetime.datetime.strptime(
+            time_string, _format), from_tz).to(to_tz)
+        return arrow_time.datetime
 
     @staticmethod
     def datetime_to_datetime_str(date, _format="%Y-%m-%d %H:%M:%S"):
@@ -118,18 +116,14 @@ class TimeLib(object):
         return int(time.mktime(date.timetuple()))
 
     @staticmethod
-    def datetime_to_timestamp_by_timezone(date, from_tz="UTC",
-                                          to_tz="Asia/Shanghai"):
+    def datetime_to_timestamp_by_timezone(date, from_tz="Asia/Shanghai"):
         """
         Datetime to timestamp according to timezone
         @:param date datetime
-        @:param from_tz string, default:UTC+0
-        @:param to_tz string, default:Asia/Shanghai
+        @:param from_tz string, default:Asia/Shanghai
         """
-        from_tz = tz(from_tz)
-        to_tz = tz(to_tz)
-        return int(time.mktime(date.replace(
-            tzinfo=from_tz).astimezone(to_tz).timetuple()))
+        arrow_time = arrow.get(date, from_tz).to("UTC")
+        return int(arrow_time.timestamp)
 
     # 时间戳转datetime
     @staticmethod
@@ -142,7 +136,8 @@ class TimeLib(object):
         return datetime.datetime.fromtimestamp(time_stamp)
 
     @staticmethod
-    def timestamp_to_datetime_by_timezone(time_stamp, to_tz="Asia/Shanghai"):
+    def timestamp_to_datetime_by_timezone(time_stamp, to_tz="Asia/Shanghai",
+                                          _format="%Y-%m-%d %H:%M:%S"):
         """
         Timestamp to datetime according to timezone
         @:param time_stamp timestamp
